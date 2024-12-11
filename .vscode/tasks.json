@@ -37,6 +37,28 @@
           }
         }
       }
+    },
+    {
+      "label": "Start Frontend",
+      "command": "npm",
+      "type": "shell",
+      "args": ["start"],
+      "group": "build",
+      "problemMatcher": [],
+      "options": {
+        "cwd": "${workspaceFolder}/src"
+      }
+    },
+    {
+      "label": "Start Backend",
+      "command": "npm",
+      "type": "shell",
+      "args": ["start"],
+      "group": "build",
+      "problemMatcher": [],
+      "options": {
+        "cwd": "${workspaceFolder}/backend"
+      }
     }
   ]
 }

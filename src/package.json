@@ -1,5 +1,5 @@
 {
-    "name": "pachanga",
+    "name": "pachanga_frontend",
     "version": "0.0.0",
     "scripts": {
         "ng": "ng",
@@ -27,7 +27,6 @@
         "mongoose": "^8.8.3",
         "mysql": "^2.18.1",
         "mysql2": "^3.11.4",
-        "pachanga": "file:",
         "pachanga_frontend": "file:",
         "rxjs": "~7.5.0",
         "sequelize": "^6.37.5",
