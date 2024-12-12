@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of, throwError, tap  } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +10,7 @@ import { Observable } from 'rxjs';
 export class AuthService {
   private apiUrl = 'http://localhost:5000/api/auth'; // Cambia esto por la URL de tu backend
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   // Método para registrar un usuario
   register(username: string, email: string, password: string, role: string): Observable<any> {
@@ -22,11 +24,22 @@ export class AuthService {
 
   // Método para iniciar sesión
   login(email: string, password: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/login`, { email, password });
+    return this.http.post<any>(`${this.apiUrl}/login`, { email, password }).pipe(
+      tap((response) => {
+        if (response.token) {
+          localStorage.setItem('token', response.token); // Guarda el token
+        }
+      }),
+      catchError((error) => {
+        console.error('Error al iniciar sesión:', error);
+        return throwError(() => new Error('Falló el inicio de sesión'));
+      })
+    );
   }
 
+
   // Método para verificar si el usuario está autenticado (basado en el token)
-  isAuthenticated(): boolean {
+  isLoggedIn(): boolean {
     return !!localStorage.getItem('token');
   }
 
@@ -35,14 +48,22 @@ export class AuthService {
     return localStorage.getItem('token');
   }
 
-  // Método para cerrar sesión
-  logout(): void {
-    localStorage.removeItem('token');
+  getProfile() {
+    return this.http.get<any>(`${this.apiUrl}/profile`).pipe(
+      catchError((error) => {
+        if (error.status === 401 || error.status === 403) {
+          this.logout(); // Limpia el token y redirige
+        }
+        return throwError(error);
+      })
+    );
   }
 
-  // Método para obtener el perfil del usuario autenticado
-  getProfile(): Observable<any> {
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.getToken()}`);
-    return this.http.get(`${this.apiUrl}/profile`, { headers });
+  logout(): Observable<any> {
+    localStorage.removeItem('token');
+    this.router.navigate(['/login']);
+    return this.http.post('http://localhost:5000/api/auth/logout', {});
   }
+
+
 }

@@ -2,6 +2,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptor } from './auth.interceptor';
 
 // used to create fake backend
 
@@ -24,7 +25,11 @@ import { ProfileComponent } from './auth/profile/profile.component';
         LoginComponent,
         ProfileComponent
     ],
-    providers: [
+    providers: [{
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
     ],
     bootstrap: [AppComponent]
 })

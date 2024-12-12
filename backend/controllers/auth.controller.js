@@ -93,7 +93,7 @@ const login = async (req, res) => {
 const getProfile = async (req, res) => {
   try {
     const userId = req.user.id; // El ID del usuario ya está en el token decodificado
-    const user = await User.findByPk(userId, { attributes: ['id', 'username', 'email'] }); // Buscar usuario en la base de datos
+    const user = await User.findByPk(userId, { attributes: ['id', 'username', 'email','role'] }); // Buscar usuario en la base de datos
 
     if (!user) {
       return res.status(404).json({ message: 'Usuario no encontrado' });

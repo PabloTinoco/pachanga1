@@ -3,6 +3,7 @@ const router = express.Router();
 const authController = require('../controllers/auth.controller');
 const verifyToken = require('../middlewares/auth.middleware');
 
+
 // Ruta para registrar usuarios
 router.post('/register', authController.register);
 
@@ -10,17 +11,13 @@ router.post('/register', authController.register);
 router.post('/login', authController.login);
 
 // Ruta protegida que solo pueden acceder los usuarios autenticados
-router.get('/profile', verifyToken, (req, res) => {
-  // El usuario está autenticado, podemos acceder a su información
-  res.json({
-    message: 'Perfil de usuario',
-    user: {
-      id: req.user.id,
-      username: req.user.username,
-      email: req.user.email,
-      role: req.user.role
-    }
-  });
+router.get('/profile', verifyToken, authController.getProfile);
+
+// Ruta para logout
+router.post('/logout', (req, res) => {
+  // Aquí podrías eliminar el token del lado del cliente (por ejemplo, eliminar el token del localStorage).
+  res.status(200).send({ message: 'Logout exitoso' });
 });
+
 
 module.exports = router;

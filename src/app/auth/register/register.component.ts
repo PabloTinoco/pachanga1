@@ -14,13 +14,7 @@ export class RegisterComponent implements OnInit {
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required, Validators.minLength(6)]),
     role: new FormControl('', [Validators.required])
-
   });
-
-  username: string = '';
-  email: string = '';
-  password: string = '';
-  role: string = 'user';  // Por defecto el rol es 'user'
 
   constructor(private authService: AuthService, private router: Router) {}
 
