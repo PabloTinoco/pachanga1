@@ -11,6 +11,7 @@ import { AppComponent } from './app.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { LoginComponent } from './auth/login/login.component';
 import { ProfileComponent } from './auth/profile/profile.component';
+import { HomeComponent } from './components/home/home.component';
 
 @NgModule({
     imports: [
@@ -23,7 +24,8 @@ import { ProfileComponent } from './auth/profile/profile.component';
         AppComponent,
         RegisterComponent,
         LoginComponent,
-        ProfileComponent
+        ProfileComponent,
+        HomeComponent
     ],
     providers: [{
       provide: HTTP_INTERCEPTORS,
