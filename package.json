@@ -28,7 +28,6 @@
         "mysql": "^2.18.1",
         "mysql2": "^3.11.4",
         "pachanga": "file:",
-        "pachanga_frontend": "file:",
         "rxjs": "~7.5.0",
         "sequelize": "^6.37.5",
         "tslib": "^2.3.0",

@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit {
       next: (response) => {
         console.log('Inicio de sesión exitoso:', response);
         localStorage.setItem('token', response.token); // Guardar el token en el localStorage
-        this.router.navigate(['/profile']); // Redirigir al perfil o página principal
+        this.router.navigate(['/home']); // Redirigir al perfil o página principal
       },
       error: (error) => {
         console.error('Error en el inicio de sesión:', error);
