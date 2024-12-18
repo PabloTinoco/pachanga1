@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
 
-@Component({ selector: 'app-root', templateUrl: 'app.component.html',standalone: true, imports: [CommonModule,RouterModule] })
+@Component({ selector: 'app-root', templateUrl: 'app.component.html',standalone: false })
 export class AppComponent {
 
     constructor(private authService: AuthService) {

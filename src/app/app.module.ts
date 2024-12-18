@@ -21,10 +21,10 @@ import { CourtComponent } from './components/court/court.component';
         ReactiveFormsModule,
         HttpClientModule,
         AppRoutingModule,
-        RouterModule
-
+        RouterModule,
     ],
     declarations: [
+        AppComponent,
         RegisterComponent,
         RegisterComponent,
         LoginComponent,
@@ -38,6 +38,6 @@ import { CourtComponent } from './components/court/court.component';
       multi: true
     }
     ],
-    bootstrap: []
+    bootstrap: [AppComponent]
 })
 export class AppModule { };
