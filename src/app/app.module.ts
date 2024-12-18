@@ -2,10 +2,9 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
+
 import { AuthInterceptor } from './auth.interceptor';
-
-// used to create fake backend
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RegisterComponent } from './auth/register/register.component';
@@ -19,15 +18,18 @@ import { CourtComponent } from './components/court/court.component';
         BrowserModule,
         ReactiveFormsModule,
         HttpClientModule,
-        AppRoutingModule
-    ],
-    declarations: [
-        AppComponent,
+        AppRoutingModule,
+        RouterModule  ,
+        AppComponent ,
+        RegisterComponent,
         RegisterComponent,
         LoginComponent,
         ProfileComponent,
         HomeComponent,
         CourtComponent
+    ],
+    declarations: [
+
     ],
     providers: [{
       provide: HTTP_INTERCEPTORS,
