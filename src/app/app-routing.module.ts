@@ -7,6 +7,7 @@ import { LogoutComponent } from './auth/logout/logout.component';
 import { HomeComponent } from './components/home/home.component';
 import { AuthGuard } from './auth/auth.guard';
 import { GuestGuard } from './auth/guest.guard';
+import { CourtComponent } from './components/court/court.component';
 
 const routes: Routes = [
   { path: 'register', component: RegisterComponent, canActivate: [GuestGuard] },
@@ -14,6 +15,7 @@ const routes: Routes = [
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: 'logout', component: LogoutComponent, canActivate: [AuthGuard] },
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
+  { path: 'add-court', component: CourtComponent, canActivate: [AuthGuard] },
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: '**', redirectTo: '/login' }
 ];

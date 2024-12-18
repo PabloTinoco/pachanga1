@@ -12,6 +12,7 @@ import { RegisterComponent } from './auth/register/register.component';
 import { LoginComponent } from './auth/login/login.component';
 import { ProfileComponent } from './auth/profile/profile.component';
 import { HomeComponent } from './components/home/home.component';
+import { CourtComponent } from './components/court/court.component';
 
 @NgModule({
     imports: [
@@ -25,7 +26,8 @@ import { HomeComponent } from './components/home/home.component';
         RegisterComponent,
         LoginComponent,
         ProfileComponent,
-        HomeComponent
+        HomeComponent,
+        CourtComponent
     ],
     providers: [{
       provide: HTTP_INTERCEPTORS,

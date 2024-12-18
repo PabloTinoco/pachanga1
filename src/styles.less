@@ -1,11 +1,30 @@
-/* You can add global styles to this file, and also import other style files */
-.app-container {
-    min-height: 320px;
-    overflow: hidden;
+/* ESTILOS GLOBALES */
+.header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 9999;
+  height: 60px;
 }
 
-.btn-delete-user {
-    width: 40px;
-    text-align: center;
-    box-sizing: content-box;
+.body {
+  padding-top: 60px; /* Ajusta según la altura del header */
+  overflow-y: auto;
+}
+
+.footer {
+  bottom: 0;
+  width: 100%;
+  z-index: 1000;
+  position: static;
+}
+
+/* ESTILOS DE MENU */
+
+.menu {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 60px; /* Altura del menú */
+  z-index: 1000;
 }

@@ -4,7 +4,6 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user.model');
 const dotenv = require('dotenv');
-const { last } = require('rxjs');
 
 dotenv.config();
 
@@ -39,8 +38,6 @@ const register = async (req, res) => {
     // Crear nuevo usuario
     const newUser = await User.create({ username,firstName,lastName, email, passwordHash, role: userRole });
 
-    // Crear JWT para el nuevo usuario
-    const token = jwt.sign({ id: newUser.id, email: newUser.email }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
     res.status(201).json({
       message: 'Usuario registrado exitosamente',

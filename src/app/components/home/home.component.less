@@ -1,5 +1,5 @@
 .map-container {
-  position: absolute;
+  height: calc(100vh - 60px);
   top: 0;
   left: 0;
   right: 0;
@@ -19,4 +19,8 @@
 .leaflet-container .leaflet-marker-icon,
 .leaflet-container .leaflet-marker-shadow {
     background-image: url('/assets/images/marker-icon.png');
+}
+
+.leaflet-control {
+  z-index: 500; /* Un valor más bajo que el del header */
 }
