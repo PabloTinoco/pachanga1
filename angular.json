@@ -76,10 +76,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "pachanga:build:production"
+              "buildTarget": "pachanga:build:production"
             },
             "development": {
-              "browserTarget": "pachanga:build:development"
+              "buildTarget": "pachanga:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -87,7 +87,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "pachanga:build"
+            "buildTarget": "pachanga:build"
           }
         },
         "test": {
