@@ -5,7 +5,8 @@ import { GeoSearchControl, OpenStreetMapProvider } from 'leaflet-geosearch';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.less']
+  styleUrls: ['./home.component.less'],
+  standalone: false
 })
 export class HomeComponent implements AfterViewInit {
   private map!: L.Map;

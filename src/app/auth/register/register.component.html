@@ -1,6 +1,6 @@
 <div class="container">
   <h2>Registrar Usuario</h2>
-  <form formGroup="registerForm" (ngSubmit)="onRegister()">
+  <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
     <div>
       <label for="username">Nombre de usuario</label>
       <input type="text" id="username" formControlName="username" name="username" required />

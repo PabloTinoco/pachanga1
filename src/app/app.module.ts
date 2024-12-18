@@ -5,7 +5,9 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
 import { AuthInterceptor } from './auth.interceptor';
+
 import { AppRoutingModule } from './app-routing.module';
+
 import { AppComponent } from './app.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { LoginComponent } from './auth/login/login.component';
@@ -19,8 +21,10 @@ import { CourtComponent } from './components/court/court.component';
         ReactiveFormsModule,
         HttpClientModule,
         AppRoutingModule,
-        RouterModule  ,
-        AppComponent ,
+        RouterModule
+
+    ],
+    declarations: [
         RegisterComponent,
         RegisterComponent,
         LoginComponent,
@@ -28,15 +32,12 @@ import { CourtComponent } from './components/court/court.component';
         HomeComponent,
         CourtComponent
     ],
-    declarations: [
-
-    ],
     providers: [{
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true
     }
     ],
-    bootstrap: [AppComponent]
+    bootstrap: []
 })
 export class AppModule { };

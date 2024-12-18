@@ -7,7 +7,8 @@ import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-court',
   templateUrl: './court.component.html',
-  styleUrls: ['./court.component.less']
+  styleUrls: ['./court.component.less'],
+  standalone: false
 })
 export class CourtComponent {
   courtForm: FormGroup;
