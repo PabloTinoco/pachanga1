@@ -1,0 +1,25 @@
+<div class="container">
+  <h2>Registrar Usuario</h2>
+  <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
+    <div>
+      <label for="username">Nombre de usuario</label>
+      <input type="text" id="username" formControlName="username" name="username" required />
+    </div>
+    <div>
+      <label for="email">Correo electrónico</label>
+      <input type="email" id="email" formControlName="email" name="email" required />
+    </div>
+    <div>
+      <label for="password">Contraseña</label>
+      <input type="password" id="password" formControlName="password" name="password" required />
+    </div>
+    <div>
+      <label for="role">Rol</label>
+      <select id="role" formControlName="role" name="role">
+        <option value="user">Usuario</option>
+        <option value="admin">Administrador</option>
+      </select>
+    </div>
+    <button type="submit">Registrar</button>
+  </form>
+</div>
