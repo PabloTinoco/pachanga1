@@ -1,0 +1,15 @@
+{
+  "name": "pachanga1",
+  "version": "1.0.0",
+  "scripts": {
+    "start:backend": "cd pachanga-backend && npm start",
+    "start:frontend": "cd pachanga-frontend && npm start",
+    "start": "concurrently \"npm run start:backend\" \"npm run start:frontend\""
+  },
+  "devDependencies": {
+    "concurrently": "^7.0.0"
+  },
+  "dependencies": {
+    "pachanga1": "file:"
+  }
+}

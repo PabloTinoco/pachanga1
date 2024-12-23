@@ -4,7 +4,7 @@ import { routes } from './app.routes';
 import { provideHttpClient,HTTP_INTERCEPTORS  } from '@angular/common/http';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { AuthInterceptor } from './components/auth/auth.interceptor';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [

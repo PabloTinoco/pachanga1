@@ -1,25 +1,31 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../services/auth.service';
+import { CommonModule } from '@angular/common';
+
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css'],
-  standalone: false
+  standalone:true,
+  imports: [CommonModule]
 })
 export class ProfileComponent implements OnInit {
-  user: any = null;
+  profileData: any;
 
   constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
     this.authService.getProfile().subscribe({
-      next: (response) => {
-        this.user = response.user;
-        console.log('Perfil del usuario:', this.user);
+      next: data => {
+        this.profileData = data;
+        console.log('Perfil recibido:', this.profileData);
       },
-      error: (error) => {
+      error: error => {
         console.error('Error al obtener el perfil:', error);
+      },
+      complete: () => {
+        console.log('Completado');
       }
     });
   }

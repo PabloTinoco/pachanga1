@@ -1,11 +1,11 @@
 <div class="container">
   <h2>Perfil del Usuario</h2>
-  <div *ngIf="user">
-    <p><strong>Nombre de usuario:</strong> {{ user.username }}</p>
-    <p><strong>Email:</strong> {{ user.email }}</p>
-    <p><strong>Rol:</strong> {{ user.role }}</p>
+  <div  *ngIf="profileData">
+    <p><strong>Nombre de usuario:</strong> {{ profileData.user.username }}</p>
+    <p><strong>Email:</strong> {{ profileData.user.email }}</p>
+    <p><strong>Rol:</strong> {{ profileData.user.role }}</p>
   </div>
-  <div *ngIf="!user">
+  <div *ngIf="!profileData">
     <p>Cargando datos del usuario...</p>
   </div>
 </div>

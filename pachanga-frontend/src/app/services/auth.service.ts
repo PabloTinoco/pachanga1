@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient} from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable,  throwError  } from 'rxjs';
 import { catchError,tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
@@ -42,6 +42,11 @@ export class AuthService {
     );
   }
 
+  logout(): Observable<any> {
+    localStorage.removeItem('AuthToken');
+    this.router.navigate(['/login']);
+    return this.http.post('http://localhost:5000/api/auth/logout', {});
+  }
 
   // Método para verificar si el usuario está autenticado (basado en el token)
   isLoggedIn(): boolean {
@@ -50,25 +55,22 @@ export class AuthService {
 
   // Método para obtener el token JWT almacenado
   getToken(): string | null {
-    console.log("Obteniedo token");
     return localStorage.getItem('AuthToken');
   }
 
   getProfile() {
-    return this.http.get<any>(`${this.apiUrl}/profile`).pipe(
+    const token = this.getToken();
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.get<any>(`${this.apiUrl}/profile`,{ headers }).pipe(
       catchError((error) => {
         if (error.status === 401 || error.status === 403) {
           this.logout(); // Limpia el token y redirige
         }
-        return throwError(error);
+        return throwError(() => new Error(error));
       })
     );
   }
 
-  logout(): Observable<any> {
-    localStorage.removeItem('token');
-    this.router.navigate(['/login']);
-    return this.http.post('http://localhost:5000/api/auth/logout', {});
-  }
+
 
 }
