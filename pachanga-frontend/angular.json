@@ -30,7 +30,10 @@
               "src/assets"
             ],
             "styles": [
+              "src/custom-theme.scss",
               "src/styles.less",
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "node_modules/@ng-select/ng-select/themes/default.theme.css",
               "node_modules/leaflet/dist/leaflet.css",
               "node_modules/leaflet-geosearch/dist/geosearch.css"
             ],

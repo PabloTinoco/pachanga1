@@ -1,12 +1,14 @@
 import { Component, AfterViewInit } from '@angular/core';
 import * as L from 'leaflet';
 import { GeoSearchControl, OpenStreetMapProvider } from 'leaflet-geosearch';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.less'],
-  standalone: false
+  standalone: true,
+  imports: [ RouterModule]
 })
 export class HomeComponent implements AfterViewInit {
   private map!: L.Map;

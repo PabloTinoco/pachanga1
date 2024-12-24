@@ -1,10 +1,12 @@
 import { ApplicationConfig, provideZoneChangeDetection,importProvidersFrom  } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
-import { provideHttpClient,HTTP_INTERCEPTORS  } from '@angular/common/http';
+import { provideHttpClient,HTTP_INTERCEPTORS   } from '@angular/common/http';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -14,6 +16,7 @@ export const appConfig: ApplicationConfig = {
     importProvidersFrom(ReactiveFormsModule),
     importProvidersFrom(FormsModule),
     importProvidersFrom(CommonModule),
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+    importProvidersFrom(MatSnackBarModule),
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }, provideAnimationsAsync()
   ]
 };

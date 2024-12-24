@@ -19,7 +19,6 @@ export class ProfileComponent implements OnInit {
     this.authService.getProfile().subscribe({
       next: data => {
         this.profileData = data;
-        console.log('Perfil recibido:', this.profileData);
       },
       error: error => {
         console.error('Error al obtener el perfil:', error);

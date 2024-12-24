@@ -1,0 +1,72 @@
+<div class="container mt-4">
+  <h2>Añadir Cancha</h2>
+  <form [formGroup]="courtForm" (ngSubmit)="onSubmit()">
+    <div class="form-group mb-3">
+      <label for="name">Nombre</label>
+      <input id="name" class="form-control" formControlName="name" required />
+      <div *ngIf="courtForm.get('name')?.invalid && courtForm.get('name')?.touched">
+        <small>El nombre es obligatorio y debe tener al menos 3 caracteres.</small>
+      </div>
+    </div>
+
+    <div class="form-group mb-3">
+      <label for="country">País</label>
+      <ng-select
+        [items]="countries"
+        bindLabel="country"
+        bindValue="country"
+        formControlName="country"
+        (change)="onCountryChange($event)"
+        [searchable]="true">
+      </ng-select>
+      <div *ngIf="courtForm.get('country')?.invalid && courtForm.get('country')?.touched">
+        <small>Seleccione un país.</small>
+      </div>
+    </div>
+
+    <div class="form-group mb-3">
+      <label for="city">Ciudad</label>
+      <ng-select
+        [items]="cities"
+        bindLabel="city"
+        bindValue="city"
+        formControlName="city"
+        [searchable]="true">
+      </ng-select>
+      <div *ngIf="courtForm.get('city')?.invalid && courtForm.get('city')?.touched">
+        <small>La ciudad es obligatoria.</small>
+      </div>
+    </div>
+
+    <div class="form-group mb-3">
+      <label for="postalCode">Código Postal</label>
+      <input id="postalCode" class="form-control" formControlName="postalCode" required />
+      <div *ngIf="courtForm.get('postalCode')?.invalid && courtForm.get('postalCode')?.touched">
+        <small>El código postal debe tener entre 4 y 6 dígitos.</small>
+      </div>
+    </div>
+
+    <div class="form-group mb-3">
+      <label for="address">Dirección</label>
+      <input id="address" class="form-control" formControlName="address" required />
+    </div>
+
+    <div class="form-group mb-3">
+      <label for="coordinateX">Latitud</label>
+      <input id="coordinateX" type="text" placeholder="Latitud" step="any" class="form-control" formControlName="coordinateX" required />
+      <div *ngIf="courtForm.get('latitude')?.invalid && courtForm.get('latitude')?.touched">
+        <small>Ingrese una latitud válida.</small>
+      </div>
+    </div>
+
+    <div class="form-group mb-3">
+      <label for="coordinateY">Coordenada Y</label>
+      <input id="coordinateY" placeholder="Longitud" step="any" class="form-control" formControlName="coordinateY" required />
+      <div *ngIf="courtForm.get('longitude')?.invalid && courtForm.get('longitude')?.touched">
+        <small>Ingrese una longitud válida.</small>
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary" [disabled]="courtForm.invalid">Guardar</button>
+  </form>
+</div>
