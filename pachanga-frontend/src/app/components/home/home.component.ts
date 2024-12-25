@@ -41,19 +41,27 @@ export class HomeComponent implements AfterViewInit {
   private getCurrentLocation(): void {
     if (navigator.geolocation) {
       const customIcon = L.icon({
-        iconUrl: 'assets/images/marker-icon.png',
-        shadowUrl: 'assets/images/marker-shadow.png',
+        iconUrl: 'assets/images/leaflet/marker-icon.png',
+        shadowUrl: 'assets/images/leaflet/marker-shadow.png',
         iconSize: [25, 41],
         iconAnchor: [12, 41]
     });
 
       navigator.geolocation.getCurrentPosition((position) => {
         const coords:[number, number] = [position.coords.latitude, position.coords.longitude];
-        this.map.setView(coords, 13);
-        L.marker(coords, { icon: customIcon }).addTo(this.map).bindPopup('Tu ubicación').openPopup();
+        this.map.setView(coords, 14);
 
         this.map.invalidateSize();
 
+      },
+      (error) => {
+        console.error('Error obteniendo la localización:', error);
+        // Manejar errores de geolocalización aquí
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 5000,
+        maximumAge: 0
       });
     } else {
       alert('La geolocalización no está soportada por este navegador.');

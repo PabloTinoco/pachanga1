@@ -27,7 +27,12 @@
             "inlineStyleLanguage": "less",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              {
+                "glob": "**/*",
+                "input": "node_modules/leaflet/dist/images",
+                "output": "assets/images/leaflet"
+              }
             ],
             "styles": [
               "src/custom-theme.scss",
