@@ -7,6 +7,8 @@ import { CommonModule } from '@angular/common';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { GeoSearchControl, OpenStreetMapProvider } from 'leaflet-geosearch';
+import { GeocodingService } from '../../services/geocoding.service';
+
 import * as L from 'leaflet';
 
 // Crear un icono personalizado utilizando L.Icon
@@ -62,21 +64,30 @@ export class AddCourtComponent implements OnInit {
     private router: Router,
     private http: HttpClient,
     private snackBar: MatSnackBar,
+    private geocodingService: GeocodingService
   ) {
     this.courtForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
-      country: ['', Validators.required],
-      city: ['', Validators.required],
-      postalCode: ['', [Validators.required,Validators.pattern(/^\d{4,6}$/)]],
-      address: ['', Validators.required],
-      coordinateX: ['', [Validators.required, this.coordinateValidator]],
-      coordinateY: ['', [Validators.required, this.coordinateValidator]],
+      country: [{ value: '', disabled: true }, Validators.required],
+      city: [{ value: '', disabled: true }, Validators.required],
+      postalCode: [{ value: '', disabled: true }, [Validators.required,Validators.pattern(/^\d{4,6}$/)]],
+      address: [{ value: '', disabled: true }, Validators.required],
+      coordinateX: [{ value: '', disabled: true }, [Validators.required, this.coordinateValidator]],
+      coordinateY: [{ value: '', disabled: true }, [Validators.required, this.coordinateValidator]],
     });
 
   }
 
   onSubmit() {
     if (this.courtForm.valid) {
+      // Habilitar temporalmente los campos deshabilitados
+      this.courtForm.get('country')?.enable();
+      this.courtForm.get('city')?.enable();
+      this.courtForm.get('postalCode')?.enable();
+      this.courtForm.get('address')?.enable();
+      this.courtForm.get('coordinateX')?.enable();
+      this.courtForm.get('coordinateY')?.enable();
+
       this.courtService.createCourt(this.courtForm.value).subscribe({
         next: (data: any) => {
           this.snackBar.open('Registration successful!', 'Close', {
@@ -129,20 +140,38 @@ export class AddCourtComponent implements OnInit {
     }, 0);
   }
 
-  addMarker(latlng: L.LatLng): void {
-    if (this.marker) {
-      this.marker.setLatLng(latlng);
-    } else {
+  addMarkerAndResetMap(latlng: L.LatLng): void {
+    // Eliminar el mapa existente
+    this.map.remove();
+
+    // Crear un nuevo mapa en el contenedor actualizado
+    this.map = L.map('map', {
+      center: latlng,
+      zoom: 13,
+      layers: [
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '&copy; OpenStreetMap contributors'
+        })
+      ]
+    });
+
+
+    // Ajustar el tamaño del mapa después de actualizar el contenedor
+    setTimeout(() => {
+      this.map.invalidateSize();
+      // Obtener el ancho del contenedor del mapa
+      const containerWidth = this.map.getSize().x;
+      const offsetX = containerWidth / 4; // Una cuarta parte del ancho del contenedor
+
+      // Desplazar el mapa hacia la derecha
+      this.map.panBy([-offsetX, 0], { animate: false });
+
+      // Añadir el marcador en la nueva posición centrada
       this.marker = L.marker(latlng, { draggable: true }).addTo(this.map);
       this.marker.on('dragend', (e: L.DragEndEvent) => {
         this.updateFormWithLocation(this.marker.getLatLng());
       });
-    }
-
-    // Ajustar el centro del mapa
-    this.map.setView(latlng);
-
-    this.showForm = true;
+    }, 0);
   }
 
   updateFormWithLocation(latlng: L.LatLng): void {
@@ -151,8 +180,18 @@ export class AddCourtComponent implements OnInit {
       coordinateY: latlng.lng
     });
 
-    // Aquí puedes añadir una llamada a un servicio para obtener la dirección desde las coordenadas
-    // y actualizar el formulario con los datos de la dirección
+    // Utilizar el servicio de geocodificación para obtener la dirección
+    this.geocodingService.reverseGeocode(latlng.lat, latlng.lng).subscribe(address => {
+      this.courtForm.patchValue({
+        country: address.country,
+        city: address.city,
+        postalCode: address.postalCode,
+        address: address.address
+      });
+    });
+
+    // Revalidar el formulario después de actualizar los valores
+    this.courtForm.updateValueAndValidity();
   }
 
   coordinateValidator(control: any): { [key: string]: any } | null {
@@ -173,7 +212,8 @@ export class AddCourtComponent implements OnInit {
 
             // Habilitar el evento de clic en el mapa
             this.map.on('click', (e: L.LeafletMouseEvent) => {
-              this.addMarker(e.latlng);
+              this.showForm = true;
+              this.addMarkerAndResetMap(e.latlng);
               this.updateFormWithLocation(e.latlng);
             });
           },
