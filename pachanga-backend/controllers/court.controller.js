@@ -2,9 +2,8 @@ const Court  = require('../models/court.model');
 
 // Crear cancha
 const createCourt = async (req, res) => {
-  console.log('Cuerpo de la solicitud:', req.body);
   try{
-    const { name, country, city, postalCode, address, coordinateX, coordinateY } = req.body;
+    const { name, country,country_code, region , city, postalCode, address, coordinateX, coordinateY } = req.body;
     const court = await Court.create({
       name,
       country,
@@ -13,6 +12,8 @@ const createCourt = async (req, res) => {
       address,
       coordinateX,
       coordinateY,
+      region: region || null, // Por defecto null si no se envía
+      country_code: country_code || null, // Por defecto null si no se envía
       validated: 0 // Por defecto 0 si no se envía
     });
     res.status(201).json(court);
@@ -59,11 +60,11 @@ const getAllCourts = async (req, res) => {
 };
 
 const getCourtsByCountry = async (req, res) => {
-  const { country } = req.params;
+  const { country_code } = req.params;
 
   try {
     const courts = await Court.findAll({
-      where: { country }
+      where: { country_code }
     });
     res.status(200).json(courts);
   } catch (error) {

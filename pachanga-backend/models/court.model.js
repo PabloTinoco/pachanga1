@@ -37,6 +37,14 @@ const Court = sequelize.define('Court', {
       type: DataTypes.FLOAT,
       allowNull: false,
     },
+    region: {
+      type: DataTypes.STRING, 
+      allowNull: true,
+    },
+    country_code: {
+      type: DataTypes.STRING,   
+      allowNull: true,
+    },
     validated: {
       type: DataTypes.BOOLEAN,
       allowNull: false,

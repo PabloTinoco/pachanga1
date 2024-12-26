@@ -46,7 +46,7 @@ export class AddCourtComponent implements OnInit {
     this.initMap();
     this.getCurrentLocation();
     // Cargar lista de países
-    this.http.get(this.apiUrlCountries)
+    /*this.http.get(this.apiUrlCountries)
       .subscribe({
         next: (data: any) => {
           this.countries = data.data;
@@ -54,8 +54,7 @@ export class AddCourtComponent implements OnInit {
         error: (err: any) => {
           console.error('Error al cargar los países',err);
         }
-      });
-
+      });*/
   }
 
   constructor(
@@ -72,6 +71,8 @@ export class AddCourtComponent implements OnInit {
       city: [{ value: '', disabled: true }, Validators.required],
       postalCode: [{ value: '', disabled: true }, [Validators.required,Validators.pattern(/^\d{4,6}$/)]],
       address: [{ value: '', disabled: true }, Validators.required],
+      country_code: [],
+      region: [],
       coordinateX: [{ value: '', disabled: true }, [Validators.required, this.coordinateValidator]],
       coordinateY: [{ value: '', disabled: true }, [Validators.required, this.coordinateValidator]],
     });
@@ -105,7 +106,7 @@ export class AddCourtComponent implements OnInit {
     }
   }
 
-  onCountryChange(event: any):void {
+  /*onCountryChange(event: any):void {
     const iso2 = event.iso2;
     // Obtener ciudades según el país
     this.http.post(this.apiUrlCities, { iso2 })
@@ -117,7 +118,7 @@ export class AddCourtComponent implements OnInit {
         console.error('Error al cargar las ciudades',err);
       }
     });
-  }
+  }*/
 
   initMap(): void {
     this.map = L.map('map').setView([51.505, -0.09], 13);
@@ -186,7 +187,9 @@ export class AddCourtComponent implements OnInit {
         country: address.country,
         city: address.city,
         postalCode: address.postalCode,
-        address: address.address
+        address: address.address,
+        country_code: address.country_code,
+        region: address.state
       });
     });
 

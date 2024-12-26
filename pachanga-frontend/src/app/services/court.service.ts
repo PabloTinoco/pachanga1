@@ -16,4 +16,17 @@ export class CourtService {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this.http.post<any>(`${this.apiUrl}/register`, courtData, { headers });
   }
+
+  getAllCourts(): Observable<any> {
+    const token = localStorage.getItem('AuthToken');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.get<any>(`${this.apiUrl}/all`, { headers });
+  }
+
+  getCourtsByCountry(country_code: string): Observable<any> {
+    const token = localStorage.getItem('AuthToken');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.get<any>(`${this.apiUrl}/country/${country_code}`, { headers });
+  }
+
 }

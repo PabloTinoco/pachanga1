@@ -21,7 +21,6 @@
         bindLabel="country"
         bindValue="country"
         formControlName="country"
-        (change)="onCountryChange($event)"
         [searchable]="true">
       </ng-select>
       <div *ngIf="courtForm.get('country')?.invalid && courtForm.get('country')?.touched">
@@ -65,7 +64,7 @@
     </div>
 
     <div class="form-group mb-3">
-      <label for="coordinateY">Coordenada Y</label>
+      <label for="coordinateY">Longitud</label>
       <input id="coordinateY" placeholder="Longitud" step="any" class="form-control" formControlName="coordinateY" required />
       <div *ngIf="courtForm.get('longitude')?.invalid && courtForm.get('longitude')?.touched">
         <small>Ingrese una longitud válida.</small>

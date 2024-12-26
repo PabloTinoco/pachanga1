@@ -18,7 +18,9 @@ export class GeocodingService {
           country: data.address.country,
           city: data.address.city || data.address.town || data.address.village,
           postalCode: data.address.postcode,
-          address: `${data.address.road || ''} ${data.address.house_number || ''}`.trim()
+          address: `${data.address.road || ''} ${data.address.house_number || ''}`.trim(),
+          country_code: data.address.country_code ,
+          region: data.address.state,
         };
       })
     );

@@ -1,7 +1,10 @@
 import { Component, AfterViewInit } from '@angular/core';
 import * as L from 'leaflet';
 import { GeoSearchControl, OpenStreetMapProvider } from 'leaflet-geosearch';
+import { CourtService } from '../../services/court.service';
 import { RouterModule } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -12,6 +15,9 @@ import { RouterModule } from '@angular/router';
 })
 export class HomeComponent implements AfterViewInit {
   private map!: L.Map;
+  private currentCountry: string = '';
+
+  constructor(private courtService: CourtService, private http: HttpClient) {}
 
   ngAfterViewInit(): void {
     // Inicializar el mapa
@@ -35,6 +41,9 @@ export class HomeComponent implements AfterViewInit {
     // Preguntar por ubicación del dispositivo
     this.getCurrentLocation();
 
+    // Detectar cambios en el mapa
+    this.map.on('moveend', this.onMapMove.bind(this));
+
     this.map.invalidateSize();
   }
 
@@ -50,9 +59,8 @@ export class HomeComponent implements AfterViewInit {
       navigator.geolocation.getCurrentPosition((position) => {
         const coords:[number, number] = [position.coords.latitude, position.coords.longitude];
         this.map.setView(coords, 16);
-
         this.map.invalidateSize();
-
+        this.fetchCourts(coords);
       },
       (error) => {
         console.error('Error obteniendo la localización:', error);
@@ -67,4 +75,42 @@ export class HomeComponent implements AfterViewInit {
       alert('La geolocalización no está soportada por este navegador.');
     }
   }
+
+
+  private async fetchCourts(coords: [number, number]): Promise<void> {
+    try {
+      const response = await firstValueFrom(this.http
+        .get<any>(`https://nominatim.openstreetmap.org/reverse`, {
+          params: {
+            format: 'json',
+            lat: coords[0],
+            lon: coords[1],
+          },
+        }));
+
+      const country_code = response.address.country_code;
+
+      if (country_code !== this.currentCountry) {
+        this.currentCountry = country_code;
+        this.courtService.getCourtsByCountry(country_code).subscribe((courts) => {
+          this.addCourtsToMap(courts);
+        });
+      }
+    } catch (error) {
+      console.error('Error fetching country:', error);
+    }
+  }
+
+  private addCourtsToMap(courts: any[]): void {
+    courts.forEach(court => {
+      const marker = L.marker([court.coordinateX, court.coordinateY]).addTo(this.map);
+      marker.bindPopup(`<b>${court.name}</b><br>${court.address}`);
+    });
+  }
+
+  private onMapMove(): void {
+    const center = this.map.getCenter();
+    this.fetchCourts([center.lat, center.lng]);
+  }
+
 }
