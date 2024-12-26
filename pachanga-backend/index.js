@@ -6,6 +6,7 @@ const dotenv = require('dotenv');
 const sequelize = require('./config/db');
 const authRoutes = require('./routes/auth.routes');
 const courtRoutes = require('./routes/court.routes');
+const groupRoutes = require('./routes/group.routes');
 
 dotenv.config();
 
@@ -17,6 +18,8 @@ app.use(express.json()); // Middleware para manejar cuerpos de solicitudes JSON
 app.use('/api/auth', authRoutes);
 
 app.use('/api/court', courtRoutes);
+
+app.use('/api/group', groupRoutes);
 
 // Sincronizar la base de datos y arrancar el servidor
 sequelize.sync({ force: false }) // Cambia a 'force: true' solo para regenerar la tabla

@@ -49,7 +49,7 @@ export class HomeComponent implements AfterViewInit {
 
       navigator.geolocation.getCurrentPosition((position) => {
         const coords:[number, number] = [position.coords.latitude, position.coords.longitude];
-        this.map.setView(coords, 14);
+        this.map.setView(coords, 16);
 
         this.map.invalidateSize();
 

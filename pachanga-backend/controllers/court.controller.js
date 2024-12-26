@@ -48,8 +48,34 @@ const deleteCourt = async (req, res) => {
   }
 };
 
+const getAllCourts = async (req, res) => {
+  try {
+    const courts = await Court.findAll();
+    res.status(200).json(courts);
+  } catch (error) {
+    console.error('Error fetching courts:', error);
+    res.status(500).json({ error: 'An error occurred while fetching courts' });
+  }
+};
+
+const getCourtsByCountry = async (req, res) => {
+  const { country } = req.params;
+
+  try {
+    const courts = await Court.findAll({
+      where: { country }
+    });
+    res.status(200).json(courts);
+  } catch (error) {
+    console.error('Error fetching courts:', error);
+    res.status(500).json({ error: 'An error occurred while fetching courts' });
+  }
+};
+
 module.exports = {
   createCourt,
   validateCourt,
-  deleteCourt
+  deleteCourt,
+  getAllCourts,
+  getCourtsByCountry
 };

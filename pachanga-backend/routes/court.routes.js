@@ -12,4 +12,8 @@ router.put('/:id/validate', verifyToken, courtController.validateCourt);
 // Eliminar cancha (solo admins)
 router.delete('/delete/:id', verifyToken, courtController.deleteCourt);
 
+router.get('/all', courtController.getAllCourts);
+
+router.get('/country/:country', courtController.getCourtsByCountry);
+
 module.exports = router;

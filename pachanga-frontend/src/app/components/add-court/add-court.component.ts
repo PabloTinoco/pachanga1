@@ -207,7 +207,7 @@ export class AddCourtComponent implements OnInit {
         navigator.geolocation.getCurrentPosition(
           (position) => {
             const coords:[number, number] = [position.coords.latitude, position.coords.longitude];
-            this.map.setView(coords, 13);
+            this.map.setView(coords, 15);
             this.map.invalidateSize();
 
             // Habilitar el evento de clic en el mapa
