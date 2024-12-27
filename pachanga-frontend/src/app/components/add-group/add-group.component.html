@@ -1,0 +1,15 @@
+<h2>Crear grupo en pista {{ court_name }}</h2>
+<form [formGroup]="groupForm" (ngSubmit)="onSubmit()">
+  <div>
+    <label for="name">Nombre</label>
+    <input id="name" formControlName="name" />
+  </div>
+  <div>
+    <label for="status">Privacidad</label>
+    <select id="status" formControlName="status">
+      <option value="public">Público</option>
+      <option value="private">Privado</option>
+    </select>
+  </div>
+  <button type="submit" [disabled]="groupForm.invalid">Create Group</button>
+</form>

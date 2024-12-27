@@ -88,6 +88,10 @@ export class HomeComponent implements AfterViewInit {
           },
         }));
 
+        if (!response.address) {
+          throw new Error('No address found in response');
+        }
+
       const country_code = response.address.country_code;
 
       if (country_code !== this.currentCountry) {
@@ -104,7 +108,7 @@ export class HomeComponent implements AfterViewInit {
   private addCourtsToMap(courts: any[]): void {
     courts.forEach(court => {
       const marker = L.marker([court.coordinateX, court.coordinateY]).addTo(this.map);
-      marker.bindPopup(`<b>${court.name}</b><br>${court.address}`);
+      marker.bindPopup(`<b>${court.name}</b><br>${court.address}<br><a href="/groups/${court.id}">Ver grupos</a>`);
     });
   }
 

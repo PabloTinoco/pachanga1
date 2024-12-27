@@ -1,0 +1,11 @@
+<h3>Grupos de la cancha {{ court_name }}</h3><button  class="btn btn-primary" (click)="goToCreateGroup()">Crear grupo</button>
+<div *ngIf="groups.length > 0; else noGroups">
+  <ul>
+    <li *ngFor="let group of groups">
+      <h4>{{ group.name }}</h4>
+    </li>
+  </ul>
+</div>
+<ng-template #noGroups>
+  <p>No hay grupos en está cancha</p>
+</ng-template>

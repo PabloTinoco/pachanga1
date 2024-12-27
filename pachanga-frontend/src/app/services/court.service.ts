@@ -17,6 +17,12 @@ export class CourtService {
     return this.http.post<any>(`${this.apiUrl}/register`, courtData, { headers });
   }
 
+  getCourtById(courtId: string): Observable<any> {
+    const token = localStorage.getItem('AuthToken');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.get<any>(`${this.apiUrl}/${courtId}`, { headers });
+  }
+
   getAllCourts(): Observable<any> {
     const token = localStorage.getItem('AuthToken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);

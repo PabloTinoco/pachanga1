@@ -73,10 +73,26 @@ const getCourtsByCountry = async (req, res) => {
   }
 };
 
+const getCourtById = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const court = await Court.findByPk(id);
+    if (!court) {
+      return res.status(404).json({ error: 'Court not found' });
+    }
+
+    res.status(200).json(court);
+  } catch (error) {
+    console.error('Error fetching court:', error);
+    res.status(500).json({ error: 'An error occurred while fetching court' });
+  }
+};  
+
 module.exports = {
   createCourt,
   validateCourt,
   deleteCourt,
   getAllCourts,
-  getCourtsByCountry
+  getCourtsByCountry,
+  getCourtById
 };

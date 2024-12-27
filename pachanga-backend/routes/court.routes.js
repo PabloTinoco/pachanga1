@@ -16,4 +16,6 @@ router.get('/all', verifyToken, courtController.getAllCourts);
 
 router.get('/country/:country_code', verifyToken, courtController.getCourtsByCountry);
 
+router.get('/:id', verifyToken, courtController.getCourtById);
+
 module.exports = router;
