@@ -3,7 +3,7 @@ const sequelize = require('../config/db');
 const Group = require('./group.model');
 const User = require('./user.model');
 
-const GroupUser = sequelize.define('Group_User', {
+const Group_User = sequelize.define('Group_User', {
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
@@ -29,20 +29,20 @@ const GroupUser = sequelize.define('Group_User', {
   }
 },
 {
-    timestamps: true, // Esto añadirá createdAt y updatedAt a la tabla
-},
-{
-  tableName: 'group_users',
-  indexes: [
-    {
-      unique: true,
-      fields: ['userId', 'groupId']
-    }
-  ]
-},
-);
+    tableName: 'group_users',
+    modelName: 'Group_User',
+    timestamps: true,
+    sequelize,
+    modelName: 'Group_User',
+    indexes: [
+      {
+        unique: true,
+        fields: ['user_id', 'group_id']
+      }
+    ]
+});
 
-User.belongsToMany(Group, { through: GroupUser });
-Group.belongsToMany(User, { through: GroupUser });
+User.belongsToMany(Group, { through: Group_User });
+Group.belongsToMany(User, { through: Group_User });
 
-module.exports = GroupUser;
+module.exports = Group_User;

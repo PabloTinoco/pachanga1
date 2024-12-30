@@ -1,5 +1,8 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db'); 
+const Court = require('./court.model');
+const User = require('./user.model');
+const Group_User = require('./group_user.model');
 
 const Group = sequelize.define('Group', {
   id: {
@@ -13,7 +16,11 @@ const Group = sequelize.define('Group', {
   },
   court_id: {
     type: DataTypes.INTEGER,
-    allowNull: false
+    allowNull: false,
+    references: {
+      model: 'Court',
+      key: 'id',
+    },
   },
   status: {
     type: DataTypes.ENUM('public', 'private'),
@@ -22,10 +29,11 @@ const Group = sequelize.define('Group', {
   }
 },
 {
-    timestamps: true, // Esto añadirá createdAt y updatedAt a la tabla
-}, 
-{
+  sequelize,
+  modelName: 'Group',
   tableName: 'groups',
+  timestamps: true, // Esto añadirá createdAt y updatedAt a la tabla
+
   indexes: [
     {
       unique: true,
@@ -33,5 +41,8 @@ const Group = sequelize.define('Group', {
     }
   ]
 });
+
+Group.belongsTo(Court, { foreignKey: 'court_id' });
+Group.belongsToMany(User, { through: Group_User });
 
 module.exports = Group;

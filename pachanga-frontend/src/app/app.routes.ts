@@ -9,6 +9,7 @@ import { GuestGuard } from './components/auth/guest.guard';
 import { AddCourtComponent } from './components/add-court/add-court.component';
 import { GroupsComponent } from './components/groups/groups.component';
 import { AddGroupComponent } from './components/add-group/add-group.component';
+import { GroupDetailsComponent } from './components/group-details/group-details.component';
 
 export const routes: Routes = [
   { path: 'register', component: RegisterComponent, canActivate: [GuestGuard] },
@@ -19,6 +20,7 @@ export const routes: Routes = [
   { path: 'add-court', component: AddCourtComponent, canActivate: [AuthGuard] },
   { path: 'groups/:courtId', component: GroupsComponent, canActivate: [AuthGuard] },
   { path: 'add-group/:courtId', component: AddGroupComponent, canActivate: [AuthGuard] },
+  { path: 'group/:groupId/details', component:  GroupDetailsComponent, canActivate: [AuthGuard] },
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: '**', redirectTo: '/login' }
 ];

@@ -11,5 +11,6 @@ router.post('/:group_id/addUser', verifyToken, groupController.addUserToGroup);
 
 router.post('/:group_id/join', verifyToken, groupController.joinPublicGroup);
 
+router.get('/:group_id/details', verifyToken, groupController.getGroupDetails); 
 
 module.exports = router;

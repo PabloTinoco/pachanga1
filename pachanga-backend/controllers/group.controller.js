@@ -129,5 +129,43 @@ exports.joinPublicGroup = async (req, res) => {
   }
 };
 
+exports.getGroupDetails = async (req, res) => {
+  const { group_id } = req.params;
+  const userId = req.user.id; // El ID del usuario que hace la solicitud
+
+  try {
+    const group = await Group.findByPk(group_id, {
+      include: [
+        {
+          model: Court,
+          attributes: ['name', 'address']
+        },
+        {
+          model: User,
+          attributes: ['username', 'email'],
+          through: { attributes: [] }
+        }
+      ]
+    });
+
+    if (!group) {
+      return res.status(404).json({ error: 'Group not found' });
+    }
+
+    if (group.privacy === 'private') {
+      // Verificar si el usuario que hace la solicitud es miembro del grupo
+      const groupUser = await Group_Users.findOne({ where: { user_id: userId, group_id: group_id } });
+      if (!groupUser) {
+        return res.status(403).json({ error: 'Access denied. You are not a member of this private group' });
+      }
+    }
+
+    res.status(200).json(group);
+  } catch (error) {
+    console.error('Error fetching group details:', error);
+    res.status(500).json({ error: 'An error occurred while fetching group details' });
+  }
+};
+
 
 // Puedes agregar más funciones para gestionar los grupos y participantes

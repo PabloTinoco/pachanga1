@@ -11,7 +11,7 @@ export class GroupService {
   constructor(private http: HttpClient) {}
 
   getGroupsByCourt(courtId: string): Observable<any> {
-    const token = localStorage.getItem('AuthToken'); // Asumiendo que guardas el token en localStorage
+    const token = localStorage.getItem('AuthToken');
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
@@ -19,11 +19,21 @@ export class GroupService {
   }
 
   createGroup(group: any): Observable<any> {
-    const token = localStorage.getItem('AuthToken'); // Asumiendo que guardas el token en localStorage
+    const token = localStorage.getItem('AuthToken');
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
     console.log(group);
     return this.http.post<any>(`${this.apiUrl}/create`, group, { headers });
+  }
+
+  getGroupDetails(groupId: string): Observable<any> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+
+    return this.http.get<any>(`${this.apiUrl}/${groupId}/details`, { headers });
   }
 }
