@@ -7,6 +7,9 @@ router.post('/create', verifyToken, groupController.createGroup);
 
 router.get('/search/:court_id', verifyToken, groupController.searchGroupByCourt);
 
-// Añadir más rutas según sea necesario
+router.post('/:group_id/addUser', verifyToken, groupController.addUserToGroup);
+
+router.post('/:group_id/join', verifyToken, groupController.joinPublicGroup);
+
 
 module.exports = router;

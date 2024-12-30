@@ -13,12 +13,16 @@ export class AuthService {
   constructor(private http: HttpClient, private router: Router) {}
 
   // Método para registrar un usuario
-  register(username: string, email: string, password: string, role: string): Observable<any> {
+  register(username: string, email: string, password: string, country: string, city: string, height: number, exp: number): Observable<any> {
     return this.http.post(`${this.apiUrl}/register`, {
       username,
       email,
       password,
-      role
+      role: 'user',
+      country,
+      city,
+      height,
+      exp
     });
   }
 

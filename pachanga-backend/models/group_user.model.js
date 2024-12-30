@@ -32,7 +32,17 @@ const GroupUser = sequelize.define('Group_User', {
     timestamps: true, // Esto añadirá createdAt y updatedAt a la tabla
 },
 {
-  tableName: 'group_users'
-});
+  tableName: 'group_users',
+  indexes: [
+    {
+      unique: true,
+      fields: ['userId', 'groupId']
+    }
+  ]
+},
+);
+
+User.belongsToMany(Group, { through: GroupUser });
+Group.belongsToMany(User, { through: GroupUser });
 
 module.exports = GroupUser;

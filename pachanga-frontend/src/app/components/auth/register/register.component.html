@@ -1,25 +1,60 @@
 <div class="container">
   <h2>Registrar Usuario</h2>
-  <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
-    <div>
+  <form class="form-container" [formGroup]="registerForm" (ngSubmit)="onRegister()">
+    <div class="form-group mb-3">
       <label for="username">Nombre de usuario</label>
-      <input type="text" id="username" formControlName="username" name="username" required />
+      <input class="form-control" type="text" id="username" formControlName="username" name="username" required />
     </div>
-    <div>
+    <div class="form-group mb-3">
       <label for="email">Correo electrónico</label>
-      <input type="email" id="email" formControlName="email" name="email" required />
+      <input class="form-control" type="email" id="email" formControlName="email" name="email" required />
     </div>
-    <div>
+    <div class="form-group mb-3">
       <label for="password">Contraseña</label>
-      <input type="password" id="password" formControlName="password" name="password" required />
+      <input class="form-control" type="password" id="password" formControlName="password" name="password" required />
     </div>
-    <div>
-      <label for="role">Rol</label>
-      <select id="role" formControlName="role" name="role">
-        <option value="user">Usuario</option>
-        <option value="admin">Administrador</option>
-      </select>
+    <div class="form-group mb-3">
+      <label for="confirmPassword">Confirmar contraseña</label>
+      <input class="form-control" type="password" id="confirmPassword" formControlName="confirmPassword" name="confirmPassword" required />
+      <div *ngIf="registerForm.errors?.['mismatch'] && (registerForm.get('confirmPassword')?.touched || registerForm.get('confirmPassword')?.dirty)">
+        <p>Passwords do not match</p>
+      </div>
     </div>
-    <button type="submit">Registrar</button>
+    <div class="form-group mb-3">
+      <label for="country">País</label>
+      <ng-select
+        [items]="countries"
+        bindLabel="country"
+        bindValue="country"
+        formControlName="country"
+        (change)="onCountryChange($event)"
+        [searchable]="true">
+      </ng-select>
+      <div *ngIf="registerForm.get('country')?.invalid && registerForm.get('country')?.touched">
+        <small>Seleccione un país.</small>
+      </div>
+    </div>
+    <div class="form-group mb-3">
+      <label for="city">Ciudad</label>
+      <ng-select
+      [items]="cities"
+      bindLabel="city"
+      bindValue="city"
+      formControlName="city"
+      [searchable]="true">
+      </ng-select>
+      <div *ngIf="registerForm.get('city')?.invalid && registerForm.get('city')?.touched">
+        <small>La ciudad es obligatoria.</small>
+      </div>
+    </div>
+    <div class="form-group mb-3">
+      <label for="height">Altura</label>
+      <input class="form-control" type="number" id="height" formControlName="height" name="height" required /> cm
+    </div>
+    <div class="form-group mb-3">
+      <label for="exp">Calidad</label>
+      <input class="form-control" type="number" id="exp" formControlName="exp" name="exp" required />
+    </div>
+    <button type="submit" class="btn btn-primary" [disabled]="registerForm.invalid">Registrar</button>
   </form>
 </div>

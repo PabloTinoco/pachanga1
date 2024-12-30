@@ -61,7 +61,6 @@ export class AddCourtComponent implements OnInit {
     private fb: FormBuilder,
     private courtService: CourtService,
     private router: Router,
-    private http: HttpClient,
     private snackBar: MatSnackBar,
     private geocodingService: GeocodingService
   ) {

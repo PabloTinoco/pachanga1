@@ -10,7 +10,7 @@ dotenv.config();
 // Registrar usuario
 const register = async (req, res) => {
   console.log('Cuerpo de la solicitud:', req.body);
-  const { username, email, password, firstName, lastName,role  } = req.body;
+  const { username, email, password, firstName, lastName,role,country, city, height, exp  } = req.body;
 
   try {
 
@@ -36,7 +36,7 @@ const register = async (req, res) => {
     const userRole = role || 'user';
 
     // Crear nuevo usuario
-    const newUser = await User.create({ username,firstName,lastName, email, passwordHash, role: userRole });
+    const newUser = await User.create({ username,firstName,lastName, email, passwordHash, role: userRole, country, city, height, exp });
 
 
     res.status(201).json({
@@ -45,7 +45,11 @@ const register = async (req, res) => {
         id: newUser.id,
         username: newUser.username,
         email: newUser.email,
-        role: newUser.role
+        role: newUser.role,
+        country: newUser.country,
+        city: newUser.city,
+        height: newUser.height,
+        exp: newUser.exp,
       }
     });
 
