@@ -12,14 +12,14 @@ const Group_User = sequelize.define('Group_User', {
   group_id: {
     type: DataTypes.INTEGER,
     references: {
-      model: Group,
+      model: 'group',
       key: 'id'
     }
   },
   user_id: {
     type: DataTypes.INTEGER,
     references: {
-      model: User,
+      model: 'user',
       key: 'id'
     }
   },
@@ -29,8 +29,7 @@ const Group_User = sequelize.define('Group_User', {
   }
 },
 {
-    tableName: 'group_users',
-    modelName: 'Group_User',
+    tableName: 'group_user',
     timestamps: true,
     sequelize,
     modelName: 'Group_User',
@@ -42,7 +41,5 @@ const Group_User = sequelize.define('Group_User', {
     ]
 });
 
-User.belongsToMany(Group, { through: Group_User });
-Group.belongsToMany(User, { through: Group_User });
 
 module.exports = Group_User;

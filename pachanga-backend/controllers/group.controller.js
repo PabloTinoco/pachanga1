@@ -1,10 +1,11 @@
 const Group = require('../models/group.model');
-const GroupUser = require('../models/group_user.model');
+const GroupUser = require('../models/group_user.model.js');
 const User = require('../models/user.model');
 const Court = require('../models/court.model');
+const Group_User = require('../models/group_user.model.js');
 
 exports.createGroup = async (req, res) => {
-  const { name, court_id, status } = req.body;
+  const { name, court_id, private } = req.body;
   const userId = req.user.id; 
 
   try {
@@ -32,10 +33,10 @@ exports.createGroup = async (req, res) => {
     const group = await Group.create({
       name,
       court_id,
-      status
+      private
     });
 
-    await GroupUser.create({
+    await Group_User.create({
       group_id: group.id,
       user_id: user.id,
       is_admin: true
@@ -49,11 +50,29 @@ exports.createGroup = async (req, res) => {
 
 exports.searchGroupByCourt = async (req, res) => {
   const { court_id } = req.params;
+  const userId = req.user.id;
+
   try {
+    // Fetch all groups for the specified court
     const groups = await Group.findAll({
-      where: { court_id }
+      where: { court_id },
+      include: [{
+        model: User,
+        attributes: [],
+        through: {
+          attributes: []
+        },
+        where: {
+          id: userId
+        },
+        required: false
+      }]
     });
-    res.status(200).json(groups);
+
+    console.log(groups);
+
+    const filteredGroups = groups.filter(group => !group.private || group.GroupUser.length > 0);
+    res.status(200).json(filteredGroups);
   } catch (error) {
     console.error('Error fetching groups:', error);
     res.status(500).json({ error: 'An error occurred while fetching groups' });
@@ -72,7 +91,7 @@ exports.addUserToGroup = async (req, res) => {
       return res.status(404).json({ error: 'Group not found' });
     }
 
-    if (group.status === 'private') {
+    if (group.private) {
       // Verificar si el usuario que hace la solicitud es el admin del grupo
       const groupUser = await GroupUser.findOne({ where: { user_id: requestingUserId, group_id } });
       if (!groupUser || !groupUser.isAdmin) {
@@ -108,7 +127,7 @@ exports.joinPublicGroup = async (req, res) => {
       return res.status(404).json({ error: 'Group not found' });
     }
 
-    if (group.status !== 'public') {
+    if (!group.private) {
       return res.status(403).json({ error: 'Only public groups can be joined by users directly' });
     }
 
@@ -134,6 +153,7 @@ exports.getGroupDetails = async (req, res) => {
   const userId = req.user.id; // El ID del usuario que hace la solicitud
 
   try {
+    
     const group = await Group.findByPk(group_id, {
       include: [
         {
@@ -152,9 +172,10 @@ exports.getGroupDetails = async (req, res) => {
       return res.status(404).json({ error: 'Group not found' });
     }
 
-    if (group.privacy === 'private') {
+
+    if (group.private) {
       // Verificar si el usuario que hace la solicitud es miembro del grupo
-      const groupUser = await Group_Users.findOne({ where: { user_id: userId, group_id: group_id } });
+      const groupUser = await GroupUser.findOne({ where: { user_id: userId, group_id: group_id } });
       if (!groupUser) {
         return res.status(403).json({ error: 'Access denied. You are not a member of this private group' });
       }
@@ -164,6 +185,29 @@ exports.getGroupDetails = async (req, res) => {
   } catch (error) {
     console.error('Error fetching group details:', error);
     res.status(500).json({ error: 'An error occurred while fetching group details' });
+  }
+};
+
+exports.isMemberOfGroup = async (req, res) => {
+  const { group_id } = req.params;
+  const userId = req.user.id; // El ID del usuario que hace la solicitud
+  try {
+    const group = await Group.findByPk(group_id);
+    if (!group) {
+      return res.status(404).json({ error: 'Group not found' });
+    }
+    if (group.private) {
+      const groupUser = await GroupUser.findOne({ where: { user_id: userId, group_id: group_id } });
+      if (groupUser) {
+        return res.status(403).json(1);
+      }else{
+        return res.status(200).json(0);
+      }
+    }
+    res.status(200).json(1);
+  } catch (error) {
+    console.error('Error checking if user is member of group:', error);
+    res.status(500).json({ error: 'An error occurred while checking if user is member of group' });
   }
 };
 

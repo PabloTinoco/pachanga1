@@ -13,6 +13,7 @@ import { CommonModule } from '@angular/common';
 export class GroupDetailsComponent implements OnInit {
 
   group: any;
+  error: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -22,9 +23,15 @@ export class GroupDetailsComponent implements OnInit {
   ngOnInit(): void {
     const group_id = this.route.snapshot.paramMap.get('group_id');
     if (group_id) {
-      this.groupService.getGroupDetails(group_id).subscribe((data) => {
-        this.group = data;
-      });
+      this.groupService.getGroupDetails(group_id).subscribe(
+        (data) => {
+          this.group = data;
+        },
+        (err) => {
+          this.error = err;
+          console.error(err);
+        }
+      );
     }
   }
 

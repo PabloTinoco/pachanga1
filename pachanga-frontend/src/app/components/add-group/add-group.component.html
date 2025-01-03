@@ -5,10 +5,10 @@
     <input id="name" formControlName="name" />
   </div>
   <div>
-    <label for="status">Privacidad</label>
-    <select id="status" formControlName="status">
-      <option value="public">Público</option>
-      <option value="private">Privado</option>
+    <label for="private">Privacidad</label>
+    <select id="private" formControlName="private">
+      <option value="0">Público</option>
+      <option value="1">Privado</option>
     </select>
   </div>
   <button type="submit" [disabled]="groupForm.invalid">Create Group</button>

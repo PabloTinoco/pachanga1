@@ -1,11 +1,14 @@
 <div *ngIf="group">
   <h2>{{ group.name }}</h2>
-  <p>Status: {{ group.status }}</p>
+  <p>Privado: {{ group.private ? 'Sí' : 'No' }}</p>
   <p>Cancha: {{ group.Court.name }} - {{ group.Court.address }}</p>
-  <h3>Participants:</h3>
+  <h3>Participantes</h3>
   <ul>
     <li *ngFor="let user of group.Users">
       {{ user.username }} ({{ user.email }})
     </li>
   </ul>
+</div>
+<div *ngIf="error">
+  <p>{{ error }}</p>
 </div>

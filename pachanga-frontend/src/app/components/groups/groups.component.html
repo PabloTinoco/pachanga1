@@ -1,8 +1,8 @@
 <h3>Grupos de la cancha {{ court_name }}</h3><button  class="btn btn-primary" (click)="goToCreateGroup()">Crear grupo</button>
 <div *ngIf="groups.length > 0; else noGroups">
-  <ul>
-    <li *ngFor="let group of groups">
-      <h4>{{ group.name }}</h4>
+  <ul >
+    <li *ngFor="let group of groups" >
+      <a [routerLink]="['/group', group.id , 'details']" routerLinkActive="router-link-active" >{{ group.name }}</a>
     </li>
   </ul>
 </div>

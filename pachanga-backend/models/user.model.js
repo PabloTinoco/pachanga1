@@ -61,7 +61,7 @@ const User = sequelize.define('User', {
 {
   sequelize,
   modelName: 'User',
-  tableName: 'users',
+  tableName: 'user',
   timestamps: true, // Esto añadirá createdAt y updatedAt a la tabla
 },
 {
@@ -78,6 +78,8 @@ User.prototype.matchPassword = async function (password) {
     return await bcrypt.compare(password, this.password);
 };
 
-User.belongsToMany(require('./group_user.model'), { through: 'Group_Users' });
+User.associate = models => {
+    User.belongsToMany(models.Group, { through: models.Group_User, foreignKey: 'user_id' });
+  };
 
 module.exports = User;

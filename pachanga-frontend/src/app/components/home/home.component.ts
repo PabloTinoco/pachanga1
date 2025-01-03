@@ -47,14 +47,8 @@ export class HomeComponent implements AfterViewInit {
     this.map.invalidateSize();
   }
 
-  private getCurrentLocation(): void {
+  getCurrentLocation(): void {
     if (navigator.geolocation) {
-      const customIcon = L.icon({
-        iconUrl: 'assets/images/leaflet/marker-icon.png',
-        shadowUrl: 'assets/images/leaflet/marker-shadow.png',
-        iconSize: [25, 41],
-        iconAnchor: [12, 41]
-    });
 
       navigator.geolocation.getCurrentPosition((position) => {
         const coords:[number, number] = [position.coords.latitude, position.coords.longitude];

@@ -20,7 +20,7 @@ export const routes: Routes = [
   { path: 'add-court', component: AddCourtComponent, canActivate: [AuthGuard] },
   { path: 'groups/:courtId', component: GroupsComponent, canActivate: [AuthGuard] },
   { path: 'add-group/:courtId', component: AddGroupComponent, canActivate: [AuthGuard] },
-  { path: 'group/:groupId/details', component:  GroupDetailsComponent, canActivate: [AuthGuard] },
+  { path: 'group/:group_id/details', component:  GroupDetailsComponent, canActivate: [AuthGuard] },
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: '**', redirectTo: '/login' }
 ];

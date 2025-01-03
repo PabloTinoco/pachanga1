@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { GroupService } from '../../services/group.service';
 import { CourtService } from '../../services/court.service';
 import { CommonModule } from '@angular/common';
@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
   templateUrl: './groups.component.html',
   styleUrls: ['./groups.component.less'],
   standalone: true,
-  imports: [CommonModule]
+  imports: [CommonModule, RouterModule]
 })
 export class GroupsComponent implements OnInit {
   groups: any[] = [];
@@ -32,4 +32,5 @@ export class GroupsComponent implements OnInit {
   goToCreateGroup(): void {
     this.router.navigate([`/add-group/${this.courtId}`]);
   }
+
 }

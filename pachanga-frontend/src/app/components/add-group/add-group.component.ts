@@ -36,7 +36,7 @@ export class AddGroupComponent implements OnInit {
     });
     this.groupForm = this.fb.group({
       name: ['', Validators.required],
-      status: ['', Validators.required],
+      private: ['', Validators.required],
     });
   }
   onSubmit(): void {

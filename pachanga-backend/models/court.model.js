@@ -1,7 +1,6 @@
 // models/court.js
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
-const Group = require('./group.model'); 
 
 // Modelo de Cancha
 const Court = sequelize.define('Court', {
@@ -53,14 +52,17 @@ const Court = sequelize.define('Court', {
     },
   },
   {
-    tableName: 'courts',
+    tableName: 'court',
     sequelize,
     modelName: 'Court',
     timestamps: true, // Esto añadirá createdAt y updatedAt a la tabla
   }
   );
 
-Court.hasMany( Group, { foreignKey: 'court_id' });
+  Court.associate = models => {
+    Court.hasMany(models.Group, { foreignKey: 'court_id' });
+  };
+
 
 module.exports = Court;
 
